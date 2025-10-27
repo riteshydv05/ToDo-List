@@ -6,11 +6,15 @@ const generateTokenAndSaveInCookies = async (userId, res) => {
     expiresIn: "1d",
   });
   
+  // Use secure cookies in production
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: isProduction, // true in production (HTTPS), false in development
+    sameSite: isProduction ? "none" : "lax", // 'none' for cross-site in production
     path: "/",
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
   });
     
   await User.findByIdAndUpdate(userId, { token });

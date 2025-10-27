@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import API_URL from '../config'
 
 function Signup() {
   const [formData, setFormData] = React.useState({
@@ -26,7 +27,7 @@ function Signup() {
     setLoading(true)
 
     try {
-      const response = await axios.post('http://localhost:4001/user/register', formData, {
+      const response = await axios.post(`${API_URL}/user/register`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json'

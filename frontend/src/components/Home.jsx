@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import API_URL from "../config";
 
 function Home() {
   const [todos, setTodos] = React.useState([]);
@@ -12,7 +13,7 @@ function Home() {
     const fetchTodos = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:4001/todo/fetch", {
+        const response = await axios.get(`${API_URL}/todo/fetch`, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +39,7 @@ function Home() {
         return;
       }
       const response = await axios.post(
-        "http://localhost:4001/todo/create",
+        `${API_URL}/todo/create`,
         {
           text: newTodo,
           completed: false,
@@ -63,7 +64,7 @@ function Home() {
     const todo = todos.find((t) => t._id === id);
     try {
       const response = await axios.put(
-        `http://localhost:4001/todo/update/${id}`,
+        `${API_URL}/todo/update/${id}`,
         {
           ...todo,
           completed: !todo.completed,
@@ -83,7 +84,7 @@ function Home() {
 
   const todosDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:4001/todo/delete/${id}`, {
+      await axios.delete(`${API_URL}/todo/delete/${id}`, {
         withCredentials: true,
       });
       setTodos(todos.filter((t) => t._id !== id));
@@ -98,7 +99,7 @@ function Home() {
   const logoutUser = async () => {
     try {
       await axios.get(
-        "http://localhost:4001/user/logout",
+        `${API_URL}/user/logout`,
         {},
         { withCredentials: true }
       );
